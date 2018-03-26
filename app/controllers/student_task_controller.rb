@@ -13,6 +13,8 @@ class StudentTaskController < ApplicationController
 
     # #######Tasks and Notifications##################
     @tasknotstarted = @student_tasks.select(&:not_started?)
+    @tasks_in_review = @student_tasks.select{|task| task.current_stage == "review"}
+    @tasknotstarted = @tasknotstarted + @tasks_in_review.reject(&:content_submitted_in_current_stage? )
     @taskrevisions = @student_tasks.select(&:revision?)
 
     ######## Students Teamed With###################
